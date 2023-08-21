@@ -44,4 +44,6 @@ jobs:
         host: 129.151.236.199
         username: gumbybot
         key: ${{ secrets.SSH_KEY }}
-        script: echo ${{ secrets.PASSWORD }} | sudo -S -k systemctl restart GumbyBot
+        script: |
+          echo ${{ secrets.PASSWORD }} | sudo -S -k chmod +x /home/gumbybot/GumbyBot/GumbyBot
+          echo ${{ secrets.PASSWORD }} | sudo -S -k systemctl restart GumbyBot
