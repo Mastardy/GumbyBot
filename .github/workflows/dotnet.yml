@@ -22,6 +22,9 @@ jobs:
         echo "TOKEN=${{ secrets.TOKEN }}" >> ./GumbyBot/.env
         echo "GUILD_ID=${{ secrets.GUILD_ID }}" >> ./GumbyBot/.env
         cat ./GumbyBot/.env
+        cd GumbyBot
+        ls
+        cd ..
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:

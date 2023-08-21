@@ -4,7 +4,7 @@
 
 ## Features
 
-- **Votnig System:** Users can nominate and vote for a server leader for a designated period.
+- **Voting System:** Users can nominate and vote for a server leader for a designated period.
 - **Impeachment Mechanism:** Initiate an impeachment process based on community votes.
 - **Server Customization:** Server leader can customize server banner, icon and name.
 
