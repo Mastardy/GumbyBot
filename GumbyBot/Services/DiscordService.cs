@@ -21,7 +21,7 @@ namespace GumbyBot.Services
 				// Load our .env file & fetch the token
 				// Gotta use TraversePath so then we can look backwards in folders too! Helps for debugging
 				DotNetEnv.Env.TraversePath().Load();
-				var token = Environment.GetEnvironmentVariable("token");
+				var token = Environment.GetEnvironmentVariable("TOKEN");
 
 				// Failed to find .env or it doesn't have a token
 				if (token == null)

@@ -23,7 +23,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore GumbyBot
     - name: Publish
-      run: dotnet publish GumbyBot -c Release --property:PublishDir=deploy --no-self-contained --runtime linux-x64
+      run: dotnet publish GumbyBot -c Release --property:PublishDir=deploy --self-contained --runtime linux-x64
     - name: Generate envfile
       uses: SpicyPizza/create-envfile@v2.0
       with:

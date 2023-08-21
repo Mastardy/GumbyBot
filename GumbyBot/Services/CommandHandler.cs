@@ -33,7 +33,7 @@ namespace GumbyBot.Services
 
 		public async Task RegisterCommands()
 		{
-			var guildIdStr = Environment.GetEnvironmentVariable("guild_id");
+			var guildIdStr = Environment.GetEnvironmentVariable("GUILD_ID");
 			if (guildIdStr == null)
 			{
 				// This can take up to an hour to take effect, so it's probably better to use specific guild for testing :)
