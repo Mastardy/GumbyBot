@@ -22,5 +22,14 @@ jobs:
         dotnet-version: 7.0.x
     - name: Restore dependencies
       run: dotnet restore GumbyBot
-    - name: Build
-      run: dotnet build --configuration Release GumbyBot
+    - name: Publish
+      run: dotnet publish GumbyBot -c Release -o deploy
+    - name: Copy via SSH
+      uses: garygrossgarten/github-action-scp@release
+      with:
+        local: deploy
+        remote: /home/gumbybot/GumbyBot
+        host: 129.151.236.199
+        username: gumbybot
+        key: ${{ secrets.SSH_KEY }}
+# TODO: Run SSH command for restarting the bot
