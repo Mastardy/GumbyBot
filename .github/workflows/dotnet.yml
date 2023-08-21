@@ -23,7 +23,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore GumbyBot
     - name: Publish
-      run: dotnet publish GumbyBot -c Release --property:PublishDir=deploy
+      run: dotnet publish GumbyBot -c Release --property:PublishDir=deploy --runtime linux-x64
     - name: Copy via SSH
       uses: garygrossgarten/github-action-scp@release
       with:
