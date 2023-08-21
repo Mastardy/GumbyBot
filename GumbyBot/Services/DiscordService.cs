@@ -1,4 +1,5 @@
-﻿using Discord.WebSocket;
+﻿using System.Collections;
+using Discord.WebSocket;
 
 namespace GumbyBot.Services
 {
@@ -18,6 +19,9 @@ namespace GumbyBot.Services
 		{
 			try
 			{
+				foreach(DictionaryEntry de in Environment.GetEnvironmentVariables())
+					Console.WriteLine("  {0} = {1}", de.Key, de.Value);
+				
 				// Load our .env file & fetch the token
 				// Gotta use TraversePath so then we can look backwards in folders too! Helps for debugging
 				DotNetEnv.Env.TraversePath().Load();
