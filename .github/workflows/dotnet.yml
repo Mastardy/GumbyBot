@@ -16,18 +16,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 7.0.x
-    - name: Restore dependencies
-      run: dotnet restore GumbyBot
     - name: Generate envfile
       run: |
         touch .env
         echo "TOKEN=${{ secrets.TOKEN }}" >> .env
         echo "GUILD_ID=${{ secrets.GUILD_ID }}" >> .env
         cat .env
+        ls
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+    - name: Restore dependencies
+      run: dotnet restore GumbyBot
     - name: Publish
       run: dotnet publish GumbyBot -c Release --property:PublishDir=deploy --self-contained --runtime linux-x64
     - name: Copy via SSH
