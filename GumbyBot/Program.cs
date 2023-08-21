@@ -1,14 +1,13 @@
-﻿using Discord.WebSocket;
+﻿using Discord.Interactions;
+using Discord.WebSocket;
 using GumbyBot.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Reflection;
 
 namespace GumbyBot
 {
 	public class Program
 	{
-		private DiscordSocketClient? _client = null;
 		private readonly IServiceProvider _serviceProvider;
 
 		public Program()
@@ -19,12 +18,14 @@ namespace GumbyBot
 		static IServiceProvider CreateProvider()
 		{
 			var collection = new ServiceCollection()
-				.AddSingleton<DiscordSocketClient>();
+				.AddSingleton<DiscordSocketClient>()
+				.AddSingleton<InteractionService>();
 
-			// Get all classes with the "service" attribute
+			// Get all classes with the "service/module" attribute
 			var services = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsDefined(typeof(ServiceAttribute)));
+
 			// Add to our provider
-			foreach(var service in services)
+			foreach (var service in services)
 				collection = collection.AddSingleton(service);
 
 			return collection.BuildServiceProvider();
@@ -37,6 +38,10 @@ namespace GumbyBot
 			// Start bot
 			var client = _serviceProvider.GetRequiredService<DiscordService>();
 			await client.StartAsync();
+
+			// Setup slash commands
+			var commandHandler = _serviceProvider.GetRequiredService<CommandHandler>();
+			await commandHandler.StartAsync();
 
 			// Wait forever
 			await Task.Delay(-1);

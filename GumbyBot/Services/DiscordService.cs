@@ -1,5 +1,4 @@
 ﻿using Discord.WebSocket;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GumbyBot.Services
 {
@@ -7,10 +6,12 @@ namespace GumbyBot.Services
 	public class DiscordService
 	{
 		private readonly DiscordSocketClient _client;
+		private readonly CommandHandler _commandHandler;
 
-		public DiscordService(DiscordSocketClient client)
+		public DiscordService(DiscordSocketClient client, CommandHandler commandHandler)
 		{
 			_client = client;
+			_commandHandler = commandHandler;
 		}
 
 		public async Task<bool> StartAsync()
@@ -29,7 +30,7 @@ namespace GumbyBot.Services
 					return false;
 				}
 
-				_client.Ready += client_Ready;
+				_client.Ready += Ready;
 				await _client.LoginAsync(Discord.TokenType.Bot, token);
 				await _client.StartAsync();
 			}
@@ -46,15 +47,16 @@ namespace GumbyBot.Services
 
 		public async Task<bool> StopAsync()
 		{
+			// Shut us down
 			await _client.LogoutAsync();
 			await _client.StopAsync();
 			return true;
 		}
 
-		private Task client_Ready()
+		private async Task Ready()
 		{
 			Console.WriteLine($"Logged in as user {_client.CurrentUser.Username}({_client.CurrentUser.Id})");
-			return Task.CompletedTask;
+			await _commandHandler.RegisterCommands();
 		}
 	}
 }
