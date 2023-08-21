@@ -23,7 +23,7 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore GumbyBot
     - name: Publish
-      run: dotnet publish GumbyBot -c Release -o deploy
+      run: dotnet publish GumbyBot -c Release --property:PublishDir=deploy
     - name: Copy via SSH
       uses: garygrossgarten/github-action-scp@release
       with:
@@ -31,5 +31,5 @@ jobs:
         remote: /home/gumbybot/GumbyBot
         host: 129.151.236.199
         username: gumbybot
-        key: ${{ secrets.SSH_KEY }}
+        privateKey: ${{ secrets.SSH_KEY }}
 # TODO: Run SSH command for restarting the bot
