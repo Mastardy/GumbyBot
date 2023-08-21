@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Discord.WebSocket;
+﻿using Discord.WebSocket;
 
 namespace GumbyBot.Services
 {
@@ -19,15 +18,9 @@ namespace GumbyBot.Services
 		{
 			try
 			{
-				foreach(DictionaryEntry de in Environment.GetEnvironmentVariables())
-					Console.WriteLine("  {0} = {1}", de.Key, de.Value);
-				
-				// Load our .env file & fetch the token
-				// Gotta use TraversePath so then we can look backwards in folders too! Helps for debugging
-				DotNetEnv.Env.TraversePath().Load();
 				var token = Environment.GetEnvironmentVariable("TOKEN");
 
-				// Failed to find .env or it doesn't have a token
+				// Failed to find the token
 				if (token == null)
 				{
 					Console.Error.WriteLine("Failed to fetch discord app token!");
@@ -40,9 +33,9 @@ namespace GumbyBot.Services
 			}
 			catch (Exception ex)
 			{
-				Console.Error.WriteLine("Failed to start/login to discord!");
-				Console.Error.WriteLine(ex.Message);
-				Console.Error.WriteLine(ex?.StackTrace?.ToString());
+				await Console.Error.WriteLineAsync("Failed to start/login to discord!");
+				await Console.Error.WriteLineAsync(ex.Message);
+				await Console.Error.WriteLineAsync(ex?.StackTrace);
 				return false;
 			}
 
