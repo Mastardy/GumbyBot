@@ -24,11 +24,13 @@ jobs:
         directory: ./GumbyBot
         file_name: .env
         fail_on_empty: true
-    - name: Debug envfile
-      run: |
-        cat ./GumbyBot/.env
-        ls -a ./GumbyBot
-        ls -l ./GumbyBot/.env
+    - name: Load envfile
+      uses: aarcangeli/load-dotenv@v1.0.0
+      with:
+        path: ./GumbyBot
+        filenames: .env
+        quiet: false
+        if-file-not-found: error
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
