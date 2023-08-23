@@ -1,7 +1,8 @@
-﻿namespace GumbyBot.Database;
-
-public class User
+﻿namespace GumbyBot.Database
 {
-    public ulong DiscordId { get; set; }
-    public string Name { get; set; }
+    public class User
+    {
+        public int Id { get; set; }
+        public ulong DiscordId { get; set; }
+    }
 }
