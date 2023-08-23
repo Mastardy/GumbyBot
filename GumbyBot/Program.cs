@@ -1,6 +1,7 @@
 ﻿using Discord.Interactions;
 using Discord.WebSocket;
 using GumbyBot.Services;
+using GumbyBot.Database;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -15,11 +16,12 @@ namespace GumbyBot
 			_serviceProvider = CreateProvider();
 		}
 
-		static IServiceProvider CreateProvider()
+		private static IServiceProvider CreateProvider()
 		{
 			var collection = new ServiceCollection()
 				.AddSingleton<DiscordSocketClient>()
-				.AddSingleton<InteractionService>();
+				.AddSingleton<InteractionService>()
+				.AddDbContext<GumbyDbContext>();
 
 			// Get all classes with the "service/module" attribute
 			var services = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsDefined(typeof(ServiceAttribute)));
