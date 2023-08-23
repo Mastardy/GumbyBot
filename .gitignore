@@ -402,3 +402,4 @@ FodyWeavers.xsd
 *.dll
 
 .env
+launchSettings.json
