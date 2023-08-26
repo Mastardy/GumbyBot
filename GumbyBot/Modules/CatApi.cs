@@ -1,13 +1,8 @@
 ﻿using Discord;
 using Discord.Interactions;
+using GumbyBot.Models;
 using GumbyBot.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace GumbyBot.Modules
 {
@@ -64,21 +59,5 @@ namespace GumbyBot.Modules
 			}
 			return null;
 		}
-	}
-
-	public class CatModel
-	{
-		[JsonPropertyName("id")]
-		public string? ID { get; set; }
-
-		[JsonPropertyName("url")]
-		public string? URL { get; set; }
-
-		[JsonPropertyName("width")]
-		public int Width { get; set; }
-
-		[JsonPropertyName("height")]
-		public int Height { get; set; }
-
 	}
 }
