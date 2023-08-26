@@ -1,6 +1,9 @@
 ﻿using Discord.Interactions;
 using Discord.WebSocket;
 using GumbyBot.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -19,7 +22,9 @@ namespace GumbyBot
 		{
 			var collection = new ServiceCollection()
 				.AddSingleton<DiscordSocketClient>()
-				.AddSingleton<InteractionService>();
+				.AddSingleton<InteractionService>()
+				.AddDbContextPool<DatabaseContext>(options =>
+					options.UseSqlite(DatabaseContext.ConnectionString));
 
 			// Get all classes with the "service/module" attribute
 			var services = Assembly.GetExecutingAssembly().GetTypes().Where(t => t.IsDefined(typeof(ServiceAttribute)));
@@ -31,10 +36,21 @@ namespace GumbyBot
 			return collection.BuildServiceProvider();
 		}
 
-		public static Task Main(string[] args) => new Program().MainAsync(args);
+		public static Task Main() => new Program().MainAsync();
 
-		public async Task MainAsync(string[] args)
+		public async Task MainAsync()
 		{
+			var dbContext = _serviceProvider.GetRequiredService<DatabaseContext>();
+			await dbContext.Database.MigrateAsync();
+			await dbContext.Database.EnsureCreatedAsync();
+			try
+			{
+				await (dbContext?.Database?.GetService<IDatabaseCreator>() as RelationalDatabaseCreator)?.CreateTablesAsync();
+			} catch(Exception _)
+			{
+
+			}
+
 			// Start bot
 			var client = _serviceProvider.GetRequiredService<DiscordService>();
 			await client.StartAsync();
